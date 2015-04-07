@@ -1,4 +1,4 @@
-package Severskaya;
+package Severskaya.exception;
 
 public class DivisionByZeroException extends Exception {
 

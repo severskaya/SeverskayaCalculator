@@ -1,5 +1,8 @@
-package Severskaya;
+package Severskaya.implementation;
 
+import Severskaya.exception.DivisionByZeroException;
+import Severskaya.implementation.CalculatorImplementation;
+import Severskaya.interfaces.MathSymbolInterface;
 import org.junit.*;
 import org.mockito.*;
 
@@ -12,7 +15,7 @@ public class CalculatorImplementationTest {
     private CalculatorImplementation calcImplementation;
 
     @Mock
-    private Map<String, MathSymbolInterface> map;
+    private static Map<String, MathSymbolInterface> map;
 
     @Mock
     private MathSymbolInterface msi;
@@ -24,46 +27,46 @@ public class CalculatorImplementationTest {
     }
 
     @Test
-    public void mockTestForPlus() throws DivisionByZeroException{
+    public void plusOperationShouldCombineTwoDoubles() throws DivisionByZeroException {
         //Arrange
         when(map.get("+")).thenReturn(msi);
         double expectedResult = 10;
-        Mockito.when(msi.calculateOperation(5,5)).thenReturn(expectedResult);
-        calcImplementation.operations = map;
+        when(msi.calculateOperation(5,5)).thenReturn(expectedResult);
+        CalculatorImplementation.operations = map;
 
         //Act
         double result = calcImplementation.calculate(5,5,"+");
 
         //Assert
-        Mockito.verify(map).get("+");
-        Mockito.verify(msi).calculateOperation(5,5);
+        verify(map).get("+");
+        verify(msi).calculateOperation(5,5);
         assertEquals("Operation with Plus wasn't finished successful", expectedResult, result, 1e-10);
     }
 
     @Test
-    public void mockTestForMinus() throws DivisionByZeroException{
+    public void minusOperationShouldSubtractTwoDoubles() throws DivisionByZeroException{
         //Arrange
         when(map.get("-")).thenReturn(msi);
         double expectedResult = 10;
-        Mockito.when(msi.calculateOperation(20, 10)).thenReturn(expectedResult);
-        calcImplementation.operations = map;
+        when(msi.calculateOperation(20, 10)).thenReturn(expectedResult);
+        CalculatorImplementation.operations = map;
 
         //Act
         double result = calcImplementation.calculate(20, 10, "-");
 
         //Assert
-        Mockito.verify(map).get("-");
-        Mockito.verify(msi).calculateOperation(20, 10);
+        verify(map).get("-");
+        verify(msi).calculateOperation(20, 10);
         assertEquals("Operation with Minus wasn't finished successful", expectedResult, result, 1e-10);
     }
 
     @Test
-    public void mockTestForMultiply() throws DivisionByZeroException{
+    public void multiplyOperationShouldMultiplyTwoDoubles() throws DivisionByZeroException{
         //Arrange
         when(map.get("*")).thenReturn(msi);
         double expectedResult = 20;
-        Mockito.when(msi.calculateOperation(10, 2)).thenReturn(expectedResult);
-        calcImplementation.operations = map;
+        when(msi.calculateOperation(10, 2)).thenReturn(expectedResult);
+        CalculatorImplementation.operations = map;
 
         //Act
         double result = calcImplementation.calculate(10, 2, "*");
@@ -75,29 +78,29 @@ public class CalculatorImplementationTest {
     }
 
     @Test
-    public void mockTestForDivision() throws DivisionByZeroException{
+    public void divisionOperationShouldDivideTwoDoubles() throws DivisionByZeroException{
         //Arrange
         when(map.get("/")).thenReturn(msi);
         double expectedResult = 5;
-        Mockito.when(msi.calculateOperation(10, 2)).thenReturn(expectedResult);
-        calcImplementation.operations = map;
+        when(msi.calculateOperation(10, 2)).thenReturn(expectedResult);
+        CalculatorImplementation.operations = map;
 
         //Act
         double result = calcImplementation.calculate(10, 2, "/");
 
         //Assert
-        Mockito.verify(map).get("/");
-        Mockito.verify(msi).calculateOperation(10, 2);
+        verify(map).get("/");
+        verify(msi).calculateOperation(10, 2);
         assertEquals("Operation with Division wasn't finished successful", expectedResult, result, 1e-10);
     }
 
     @Test(expected = DivisionByZeroException.class)
-    public void checkCalculatorFunctionDivisionException() throws DivisionByZeroException{
+    public void divisionByZeroShouldThrowException() throws DivisionByZeroException{
         double result = calcImplementation.calculate(10, 0, "/");
     }
 
     @Test
-    public void checkCalculatorGetHelp(){
+    public void getHelpMethodShouldReturnStringWithOperatios(){
         //Act
         String result = calcImplementation.getHelp();
 
